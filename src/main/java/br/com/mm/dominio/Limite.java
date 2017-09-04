@@ -1,7 +1,6 @@
 package br.com.mm.dominio;
 
 
-import br.com.mm.dominio.enumeradores.Direcao;
 import br.com.mm.dominio.excecao.LimiteUltrapassadoExcecao;
 
 import java.beans.ConstructorProperties;
@@ -24,13 +23,5 @@ public class Limite {
 
         if ((this.y * -1) > y || this.y < y)
             throw new LimiteUltrapassadoExcecao("O valor do eixo X " + x + " ultrapassa o limite superior");
-    }
-
-    public static void main(String[] args) {
-
-        if (-6 < -5) {
-            System.out.println("TESTE");
-        }
-
     }
 }
