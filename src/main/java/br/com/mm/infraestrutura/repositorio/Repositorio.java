@@ -10,9 +10,6 @@ public class Repositorio {
 
     private List<Entidade> registros = new ArrayList<>();
 
-    public Repositorio() {
-    }
-
     public Entidade adicionar(final Entidade entidade) {
         registros.add(entidade);
         return new Entidade(entidade.getId().toString(), entidade.getElementos());

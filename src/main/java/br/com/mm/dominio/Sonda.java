@@ -3,8 +3,6 @@ package br.com.mm.dominio;
 
 import br.com.mm.dominio.enumeradores.Comandos;
 import br.com.mm.dominio.enumeradores.Direcao;
-import br.com.mm.dominio.excecao.LimiteUltrapassadoExcecao;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.beans.ConstructorProperties;

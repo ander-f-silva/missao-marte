@@ -41,7 +41,7 @@ public class RotasIT extends AbstractTestNGSpringContextTests {
         sondas[1] = new Sonda(new Posicao(3, 3, Direcao.E), new Comandos[] {Comandos.M,Comandos.M,Comandos.R,Comandos.M,Comandos.M,Comandos.R,Comandos.M,Comandos.R,Comandos.R,Comandos.M});
 
         repositorio.adicionar(new Entidade(idPrimiroRegistro, sondas));
-        repositorio.adicionar(new Entidade(idSegundoRegistro.toString(), sondas));
+        repositorio.adicionar(new Entidade(idSegundoRegistro, sondas));
 
         cliente = WebTestClient
                 .bindToRouterFunction(new Rotas(new ManipuladorPlanalto(repositorio)).carregarEventos())
