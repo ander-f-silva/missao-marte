@@ -36,7 +36,7 @@ Na pasta postman tem um projeto que poderá importar para testar  as apis na pla
 
 Quando realizo um push o pull request, automanticamente o Travis já efetua o build e realizava o deploy no heroku.
 
-Utilizei o framerk Junit para os teste unitários e TestNg para o teste integrado.
+Utilizei o framerk Junit (sufixo Test) para os teste unitários e TestNg (sufixo IT) para o teste integrado.
 
 ![Travis](https://github.com/ander-f-silva/missao-marte/blob/develop/images/travis.png)
 
