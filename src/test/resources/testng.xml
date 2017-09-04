@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="ExecutorITs">
+
+    <test name="order">
+        <classes>
+            <class name="br.com.mm.aplicacao.api.RotasIT" />
+        </classes>
+    </test>
+
+</suite>
