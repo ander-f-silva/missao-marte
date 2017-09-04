@@ -156,6 +156,57 @@ Payload de retorno:
 
 (DELETE) http://localhost:8080/missao-marte/api/v1/planaltos/{id}
 
+(PUT) http://localhost:8080/missao-marte/api/v1/planaltos/ead1e471-c3e0-4cf6-9de4-43915795a096
+
+```
+{
+	"superior": {
+		"x": 6,
+		"y": 6
+	},
+	"sondas":[
+		{
+			"posicao":{
+				"x": 1,
+				"y": 2,
+				"direcao": "N"
+			},
+			"comandos":["L","M","L","M","L","M","L","M","M"]
+		},
+		{
+			"posicao":{
+				"x": 3,
+				"y": 3,
+				"direcao": "E"
+			},
+			"comandos":["M","M","R","M","M","R","M","R","R","M"]
+		}
+	]
+}
+```
+
+Payload de retorno:
+
+```
+{
+    "id": UUID,
+    "sondas": [
+        {
+            "x": 1,
+            "y": 3,
+            "direcao": "N"
+        },
+        {
+            "x": 5,
+            "y": 1,
+            "direcao": "E"
+        }
+    ]
+}
+```
+
+Observação: Para executar o ambiente produtivo, substitua o http://localhost:8080 por https://missao-marte.herokuapp.com
+
 ## Para realizar o build, teste unitários e iniciar o software
 
 Para realizar o build do projeto e realizar somente os testes unitários execute o comando:
