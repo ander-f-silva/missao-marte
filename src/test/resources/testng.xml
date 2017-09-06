@@ -2,7 +2,7 @@
 
 <suite name="ExecutorITs">
 
-    <test name="order">
+    <test name="rotas">
         <classes>
             <class name="br.com.mm.aplicacao.api.RotasIT" />
         </classes>
