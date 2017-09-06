@@ -1,11 +1,18 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="ExecutorITs">
+<suite name="ExecutorFullTestsITs">
 
-    <test name="rotas">
+    <test name="ExecutorTests" junit="true">
+        <packages>
+            <package name="br.com.mm.dominio.*" />
+        </packages>
+    </test>
+
+    <test name="ExecutorITs">
         <classes>
             <class name="br.com.mm.aplicacao.api.RotasIT" />
         </classes>
     </test>
 
 </suite>
+
