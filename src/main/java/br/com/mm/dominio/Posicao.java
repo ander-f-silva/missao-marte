@@ -18,25 +18,11 @@ public class Posicao {
     }
 
     public void andarUmaMalha() {
-        switch (direcao) {
-            case E:
-                x++;
-                break;
-            case W:
-                x--;
-                break;
-            case N:
-                y++;
-                break;
-            case S:
-                y--;
-                break;
-        }
+        x = direcao.moverEixoX(x);
+        y = direcao.moverEixoY(y);
     }
 
-    public void moverParaEsquerda() {
-        direcao = direcao.moverParaEsquerda();
-    }
+    public void moverParaEsquerda() { direcao = direcao.moverParaEsquerda(); }
 
     public void moverParaDireita() {
         direcao = direcao.moverParaDireita();

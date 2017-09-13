@@ -36,13 +36,13 @@ public class PlanaltoTest {
 
         Sonda[] sondaResultado = planalto.implantar();
 
-        assertEquals(1, sondaResultado[0].getX());
-        assertEquals(3, sondaResultado[0].getY());
-        assertEquals(Direcao.N, sondaResultado[0].getDirecao());
+        assertEquals(1, sondaResultado[0].getPosicao().getX());
+        assertEquals(3, sondaResultado[0].getPosicao().getY());
+        assertEquals(Direcao.N, sondaResultado[0].getPosicao().getDirecao());
 
-        assertEquals(1, sondaResultado[0].getX());
-        assertEquals(3, sondaResultado[0].getY());
-        assertEquals(Direcao.N, sondaResultado[0].getDirecao());
+        assertEquals(1, sondaResultado[0].getPosicao().getX());
+        assertEquals(3, sondaResultado[0].getPosicao().getY());
+        assertEquals(Direcao.N, sondaResultado[0].getPosicao().getDirecao());
     }
 
 }

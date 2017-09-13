@@ -2,13 +2,14 @@ package br.com.mm.dominio.enumeradores;
 
 
 import br.com.mm.dominio.Posicao;
+import br.com.mm.dominio.Sonda;
 import br.com.mm.dominio.interfaces.Acao;
 
 public enum Comandos {
 
-    M(p -> p.andarUmaMalha()),
-    L(p -> p.moverParaEsquerda()),
-    R(p -> p.moverParaDireita());
+    M(s -> s.getPosicao().andarUmaMalha()),
+    L(s -> s.getPosicao().moverParaEsquerda()),
+    R(s -> s.getPosicao().moverParaDireita());
 
     private Acao acao;
 
@@ -16,8 +17,8 @@ public enum Comandos {
         this.acao = acao;
     }
 
-    public void executar(Posicao posicao) {
-        acao.executar(posicao);
+    public void executar(Sonda sonda) {
+        acao.executar(sonda);
     }
 
 }

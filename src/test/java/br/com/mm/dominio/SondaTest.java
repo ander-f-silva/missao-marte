@@ -16,9 +16,9 @@ public class SondaTest {
 
         sonda.explorar(new Limite(5, 5));
 
-        assertEquals(5l,  sonda.getX());
-        assertEquals(1l,  sonda.getY());
-        assertEquals(Direcao.E,  sonda.getDirecao());
+        assertEquals(5l,  sonda.getPosicao().getX());
+        assertEquals(1l,  sonda.getPosicao().getY());
+        assertEquals(Direcao.E,  sonda.getPosicao().getDirecao());
     }
 
     @Test
@@ -27,9 +27,9 @@ public class SondaTest {
 
         sonda.explorar(new Limite(5, 5));
 
-        assertEquals(0l,  sonda.getX());
-        assertEquals(2l,  sonda.getY());
-        assertEquals(Direcao.W,  sonda.getDirecao());
+        assertEquals(0l,  sonda.getPosicao().getX());
+        assertEquals(2l,  sonda.getPosicao().getY());
+        assertEquals(Direcao.W,  sonda.getPosicao().getDirecao());
     }
 
     @Test(expected = LimiteUltrapassadoExcecao.class)

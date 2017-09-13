@@ -1,10 +1,10 @@
 package br.com.mm.dominio.interfaces;
 
-import br.com.mm.dominio.Posicao;
+import br.com.mm.dominio.Sonda;
 
 @FunctionalInterface
 public interface Acao {
 
-    void executar(Posicao sonda);
+    void executar(Sonda sonda);
 
 }

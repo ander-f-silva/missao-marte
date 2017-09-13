@@ -4,6 +4,7 @@ package br.com.mm.dominio;
 import br.com.mm.dominio.enumeradores.Comandos;
 import br.com.mm.dominio.enumeradores.Direcao;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import javafx.geometry.Pos;
 
 import java.beans.ConstructorProperties;
 
@@ -21,21 +22,13 @@ public class Sonda {
 
     public void explorar(Limite superior) {
         for (Comandos comando : comandos) {
-            comando.executar(posicao);
+            comando.executar(this);
             superior.validarEixos(posicao.getX(), posicao.getY());
         }
     }
 
-    public long getX() {
-        return posicao.getX();
-    }
-
-    public long getY() {
-        return posicao.getY();
-    }
-
-    public Direcao getDirecao() {
-        return posicao.getDirecao();
+    public Posicao getPosicao(){
+        return posicao;
     }
 
  }

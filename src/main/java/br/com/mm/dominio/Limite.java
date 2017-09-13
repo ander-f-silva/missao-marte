@@ -17,11 +17,10 @@ public class Limite {
     }
 
     public void validarEixos(long x, long y) {
-
-        if ((this.x * -1) > x || this.x < x)
+        if (-this.x > x || this.x < x)
             throw new LimiteUltrapassadoExcecao("O valor do eixo X " + x + " ultrapassa o limite superior");
 
-        if ((this.y * -1) > y || this.y < y)
+        if (-this.y > y || this.y < y)
             throw new LimiteUltrapassadoExcecao("O valor do eixo X " + x + " ultrapassa o limite superior");
     }
 }

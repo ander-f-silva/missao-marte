@@ -1,32 +1,102 @@
 package br.com.mm.dominio.enumeradores;
 
-public enum  Direcao {
+public enum Direcao {
 
-    N, S, E, W;
-
-    public Direcao moverParaEsquerda() {
-        switch (this) {
-            case N:
-                return W;
-            case W:
-                return S;
-            case S:
-                return E;
-            default:
-                return N;
+    N {
+        @Override
+        public Direcao moverParaEsquerda() {
+            return  W;
         }
-    }
 
-    public Direcao moverParaDireita() {
-        switch (this) {
-            case N:
-                return E;
-            case E:
-                return S;
-            case S:
-                return W;
-            default:
-                return N;
+        @Override
+        public Direcao moverParaDireita() {
+            return E;
         }
-    }
+
+        @Override
+        public long moverEixoX(long eixo) {
+            return eixo;
+        }
+
+        @Override
+        public long moverEixoY(long eixo) {
+            return ++eixo;
+        }
+    },
+
+    S {
+        @Override
+        public Direcao moverParaEsquerda() {
+            return E;
+        }
+
+        @Override
+        public Direcao moverParaDireita() {
+            return W;
+        }
+
+        @Override
+        public long moverEixoX(long eixo) {
+            return eixo;
+        }
+
+        @Override
+        public long moverEixoY(long eixo) {
+            return --eixo;
+        }
+
+    },
+
+    E {
+        @Override
+        public Direcao moverParaEsquerda() {
+            return N;
+        }
+
+        @Override
+        public Direcao moverParaDireita() {
+            return S;
+        }
+
+        @Override
+        public long moverEixoX(long eixo) {
+            return ++eixo;
+        }
+
+        @Override
+        public long moverEixoY(long eixo) {
+            return eixo;
+        }
+    },
+
+    W {
+        @Override
+        public Direcao moverParaEsquerda() {
+            return S;
+        }
+
+        @Override
+        public Direcao moverParaDireita() {
+            return N;
+        }
+
+        @Override
+        public long moverEixoX(long eixo) {
+            return --eixo;
+        }
+
+        @Override
+        public long moverEixoY(long eixo) {
+            return eixo;
+        }
+    };
+
+   public abstract Direcao moverParaEsquerda();
+
+   public abstract Direcao moverParaDireita();
+
+   public abstract long moverEixoX(long eixo);
+
+   public abstract long moverEixoY(long eixo);
+
 }
