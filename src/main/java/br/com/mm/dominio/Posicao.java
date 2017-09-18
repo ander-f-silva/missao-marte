@@ -17,17 +17,6 @@ public class Posicao {
         this.direcao = direcao;
     }
 
-    public void andarUmaMalha() {
-        x = direcao.moverEixoX(x);
-        y = direcao.moverEixoY(y);
-    }
-
-    public void moverParaEsquerda() { direcao = direcao.moverParaEsquerda(); }
-
-    public void moverParaDireita() {
-        direcao = direcao.moverParaDireita();
-    }
-
     public long getX() {
         return x;
     }

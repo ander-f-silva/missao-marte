@@ -27,6 +27,20 @@ public class Sonda {
         }
     }
 
+    public void moverEixos() {
+        long x = posicao.getDirecao().moverEixoX(posicao.getX());
+        long y = posicao.getDirecao().moverEixoY(posicao.getY());
+        posicao =  new Posicao(x, y, posicao.getDirecao());
+    }
+
+    public void moverParaEsquerda() {
+        posicao =  new Posicao(posicao.getX(), posicao.getY(), posicao.getDirecao().moverParaEsquerda());
+    }
+
+    public void moverParaDireita() {
+        posicao =  new Posicao(posicao.getX(), posicao.getY(), posicao.getDirecao().moverParaDireita());
+    }
+
     public Posicao getPosicao(){
         return posicao;
     }

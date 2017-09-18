@@ -7,9 +7,9 @@ import br.com.mm.dominio.interfaces.Acao;
 
 public enum Comandos {
 
-    M(s -> s.getPosicao().andarUmaMalha()),
-    L(s -> s.getPosicao().moverParaEsquerda()),
-    R(s -> s.getPosicao().moverParaDireita());
+    M(s -> s.moverEixos()),
+    L(s -> s.moverParaEsquerda()),
+    R(s -> s.moverParaDireita());
 
     private Acao acao;
 
