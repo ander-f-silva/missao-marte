@@ -35,13 +35,13 @@ public class RotasIT extends AbstractTestNGSpringContextTests {
 
 //        PlanaltoRepositorio planaltoRepositorio = new PlanaltoRepositorio();
 //
-//        Sonda[] sondas = new Sonda[2];
-//        sondas[0] = new Sonda(new Posicao(3, 3, Direcao.E), new Comandos[] {Comandos.M,Comandos.M,Comandos.R,Comandos.M,Comandos.M,Comandos.R,Comandos.M,Comandos.R,Comandos.R,Comandos.M});
-//        sondas[1] = new Sonda(new Posicao(3, 3, Direcao.E), new Comandos[] {Comandos.M,Comandos.M,Comandos.R,Comandos.M,Comandos.M,Comandos.R,Comandos.M,Comandos.R,Comandos.R,Comandos.M});
+//        SondaRequisicao[] sondas = new SondaRequisicao[2];
+//        sondas[0] = new SondaRequisicao(new PosicaoRequisicao(3, 3, Direcao.E), new Comandos[] {Comandos.M,Comandos.M,Comandos.R,Comandos.M,Comandos.M,Comandos.R,Comandos.M,Comandos.R,Comandos.R,Comandos.M});
+//        sondas[1] = new SondaRequisicao(new PosicaoRequisicao(3, 3, Direcao.E), new Comandos[] {Comandos.M,Comandos.M,Comandos.R,Comandos.M,Comandos.M,Comandos.R,Comandos.M,Comandos.R,Comandos.R,Comandos.M});
 //
 //        planaltoRepositorio.adicionar(new Entidade(idPrimiroRegistro, sondas));
 //        planaltoRepositorio.adicionar(new Entidade(idSegundoRegistro, sondas));
-//
+
 //        cliente = WebTestClient
 //                .bindToRouterFunction(new Rotas(new ManipuladorPlanalto(planaltoRepositorio)).carregarEventos())
 //                .build();

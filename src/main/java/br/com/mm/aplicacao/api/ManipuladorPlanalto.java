@@ -1,11 +1,13 @@
 package br.com.mm.aplicacao.api;
 
-import br.com.mm.aplicacao.api.dto.PlanaltoRequisicao;
+import br.com.mm.aplicacao.api.dto.requisicao.PlanaltoRequisicao;
+import br.com.mm.aplicacao.api.dto.resposta.PlanaltoResposta;
 import br.com.mm.dominio.Planalto;
 import br.com.mm.dominio.Sonda;
 import br.com.mm.dominio.excecao.LimiteUltrapassadoExcecao;
 import br.com.mm.infraestrutura.excecao.RegistroNaoEncontradoExcecao;
 import br.com.mm.infraestrutura.repositorio.PlanaltoRepositorio;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -38,19 +40,19 @@ public class ManipuladorPlanalto {
         Mono<PlanaltoRequisicao> requisicao = request.bodyToMono(PlanaltoRequisicao.class);
 
         return requisicao.flatMap(
-                p -> {
+                r -> {
                     try {
-                        final String id = UUID.randomUUID().toString();
-                        final Sonda[] sondas = p.implantar();
+                        Planalto planalto = r.converter();
+                        Set<Sonda> sondas = planalto.implantar();
 
-                        Entidade<String, Sonda[]> entidade = new Entidade(id, sondas);
-                        entidade = planaltoRepositorio.save(entidade);
+                        planaltoRepositorio.save(planalto);
 
-                        PlanaltoResposta resposta = new PlanaltoResposta(entidade);
+                        PlanaltoResposta resposta = new PlanaltoResposta();
+                        resposta.converter(planalto, sondas);
 
                         return ServerResponse
                                 .created(URI.create(URL_PLANALTOS))
-                                .body(fromObject(resposta.transformar()));
+                                .body(fromObject(resposta));
                     } catch (LimiteUltrapassadoExcecao lex) {
                         Map<String, String> messages = new HashMap<>();
                         messages.put(CAMPO_ERRO, lex.getMessage());
@@ -65,49 +67,62 @@ public class ManipuladorPlanalto {
 
     public Mono<ServerResponse> recuperaTodasInformacoesDasSondas(ServerRequest request) {
 
-        try {
-            List<Entidade> entidades = planaltoRepositorio.buscarTodos();
+        List<Planalto> planaltos = planaltoRepositorio.findAll();
 
-            Mono<List<TreeMap<String, Object>>> resposta = Flux.fromIterable(entidades)
-                    .map(entidade -> new PlanaltoResposta(entidade))
-                    .map(planaltoResposta -> planaltoResposta.transformar())
-                    .collectList();
-
-            return resposta.flatMap(registros -> ServerResponse.ok().body(fromObject(registros)));
-        } catch (RegistroNaoEncontradoExcecao registroNaoEncontradoExcecao) {
+        if (planaltos.isEmpty()) {
             return ServerResponse
                     .notFound()
                     .build();
         }
+
+        return Flux.fromIterable(planaltos)
+                .map(p -> {
+                    PlanaltoResposta planaltoResposta = new PlanaltoResposta();
+                    planaltoResposta.converter(p, p.getSondas());
+                    return planaltoResposta;
+                })
+                .flatMap(planaltoResposta -> ServerResponse.ok().body(fromObject(planaltoResposta)))
+                .single();
     }
 
     public Mono<ServerResponse> recuperarInformacoesDasSondas(ServerRequest request) {
 
-        try {
-            String id = request.pathVariable(PARAMETRO_ID);
+        String id = request.pathVariable(PARAMETRO_ID);
 
-            Entidade entidade = planaltoRepositorio.buscar(id);
+        Optional<Planalto> optPlanalto = planaltoRepositorio.findById(UUID.fromString(id));
 
-            Mono<TreeMap<String, Object>> resposta = Mono.just(entidade)
-                    .map(registro -> new PlanaltoResposta(registro))
-                    .map(planaltoResposta -> planaltoResposta.transformar());
-
-            return resposta.flatMap(registros -> ServerResponse.ok().body(fromObject(registros)));
-        } catch (RegistroNaoEncontradoExcecao registroNaoEncontradoExcecao) {
+        if (!optPlanalto.isPresent()) {
             return ServerResponse
                     .notFound()
                     .build();
         }
+
+        Mono<PlanaltoResposta> resposta = optPlanalto.map(
+                planalto -> {
+                    PlanaltoResposta planaltoResposta = new PlanaltoResposta();
+                    planaltoResposta.converter(planalto, planalto.getSondas());
+                    return Mono.just(planaltoResposta);
+                })
+                .get();
+
+        return resposta.flatMap(r -> ServerResponse.ok().body(fromObject(r)));
     }
 
     public Mono<ServerResponse> removerInformacoesDasSondas(ServerRequest request) {
 
         String id = request.pathVariable(PARAMETRO_ID);
 
-        try {
-            planaltoRepositorio.remover(id);
-            return ServerResponse.noContent().build();
-        } catch (RegistroNaoEncontradoExcecao registroNaoEncontradoExcecao) {
+        UUID uuId = UUID.fromString(id);
+
+        boolean resultado = planaltoRepositorio.existsById(uuId);
+
+        if (resultado) {
+            planaltoRepositorio.deleteById(uuId);
+
+            return ServerResponse
+                    .noContent()
+                    .build();
+        } else {
             return ServerResponse
                     .notFound()
                     .build();
@@ -116,40 +131,50 @@ public class ManipuladorPlanalto {
 
     public Mono<ServerResponse> atualizarInformacoesDasSondas(ServerRequest request) {
 
-        try {
-            String id = request.pathVariable(PARAMETRO_ID);
+        String id = request.pathVariable(PARAMETRO_ID);
 
-            planaltoRepositorio.remover(id);
+        UUID uuId = UUID.fromString(id);
 
-            Mono<Planalto> planalto = request.bodyToMono(Planalto.class);
+        Optional<Planalto> optPlanalto = planaltoRepositorio.findById(uuId);
 
-            return planalto.flatMap(
-                    p -> {
-                        try {
-                            final Sonda[] sondas = p.implantar();
+        if (optPlanalto.isPresent()) {
 
-                            Entidade<String, Sonda[]> entidade = new Entidade(id, sondas);
-                            entidade = planaltoRepositorio.adicionar(entidade);
+            Planalto planalto = optPlanalto.get();
 
-                            PlanaltoResposta resposta = new PlanaltoResposta(entidade);
+            Mono<PlanaltoRequisicao> requisicao = request.bodyToMono(PlanaltoRequisicao.class);
 
-                            return ServerResponse
-                                    .ok()
-                                    .body(fromObject(resposta.transformar()));
-                        } catch (LimiteUltrapassadoExcecao lex) {
-                            Map<String, String> messages = new HashMap<>();
-                            messages.put(CAMPO_ERRO, lex.getMessage());
+            return requisicao.flatMap(
+                planaltoRequisicao -> {
 
-                            return ServerResponse
-                                    .status(HttpStatus.CONFLICT)
-                                    .body(fromObject(messages));
-                        }
+                    try {
+                        ModelMapper modelMapper = new ModelMapper();
+                        modelMapper.map(planaltoRequisicao.converter(), planalto);
+
+                        Set<Sonda> sondas = planalto.implantar();
+
+                        planaltoRepositorio.save(planalto);
+
+                        PlanaltoResposta resposta = new PlanaltoResposta();
+                        resposta.converter(planalto, sondas);
+
+                        return ServerResponse
+                                .created(URI.create(URL_PLANALTOS))
+                                .body(fromObject(resposta));
+
+                    } catch (LimiteUltrapassadoExcecao lex) {
+                        Map<String, String> messages = new HashMap<>();
+                        messages.put(CAMPO_ERRO, lex.getMessage());
+
+                        return ServerResponse
+                                .status(HttpStatus.CONFLICT)
+                                .body(fromObject(messages));
                     }
+                }
             );
-        } catch (RegistroNaoEncontradoExcecao registroNaoEncontradoExcecao) {
+        } else {
             return ServerResponse
                     .notFound()
-                .build();
+                    .build();
         }
     }
 }

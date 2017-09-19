@@ -4,12 +4,15 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.beans.ConstructorProperties;
+import java.io.Serializable;
 import java.util.Set;
 import java.util.UUID;
 
 @Entity
 @Table(name = "TB_PLANALTO")
-public class Planalto {
+public class Planalto implements Serializable{
+
+    private static final long serialVersionUID = -7186930661902705579L;
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -26,16 +29,19 @@ public class Planalto {
     @JoinColumn(name = "SONDA_ID")
     private Set<Sonda> sondas;
 
-    @ConstructorProperties({"superior", "sondas"})
     public Planalto(Limite superior, Set<Sonda> sondas) {
         this.superior = superior;
         this.sondas = sondas;
     }
 
-    public Sonda[] implantar() {
+    public Set<Sonda> implantar() {
         for (Sonda sonda : sondas)
             sonda.explorar(superior);
 
-        return (Sonda[]) sondas.toArray();
+        return sondas;
+    }
+
+    public Set<Sonda> getSondas() {
+        return sondas;
     }
 }

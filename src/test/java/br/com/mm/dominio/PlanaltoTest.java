@@ -4,6 +4,11 @@ import br.com.mm.dominio.enumeradores.Comandos;
 import br.com.mm.dominio.enumeradores.Direcao;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import static org.junit.Assert.assertEquals;
 
 public class PlanaltoTest {
@@ -11,9 +16,9 @@ public class PlanaltoTest {
     @Test
     public void deveMovimentarSondas() {
 
-        Sonda[] sondas = new Sonda[2];
+        Set<Sonda> conjutoSondas = new HashSet<>();
 
-        sondas[0] = new Sonda(
+        Sonda sonda = new Sonda(
                 new Posicao(1, 2, Direcao.N),
                 new Comandos[]{
                         Comandos.L, Comandos.M,
@@ -23,7 +28,9 @@ public class PlanaltoTest {
                         Comandos.M
                 });
 
-        sondas[1] = new Sonda(
+        conjutoSondas.add(sonda);
+
+        sonda = new Sonda(
                 new Posicao(3, 3, Direcao.E),
                 new Comandos[]{
                         Comandos.M, Comandos.M, Comandos.R,
@@ -32,17 +39,22 @@ public class PlanaltoTest {
                         Comandos.M
                 });
 
-        Planalto planalto = new Planalto(new Limite(5, 5), sondas);
+        conjutoSondas.add(sonda);
 
-        Sonda[] sondaResultado = planalto.implantar();
+        Planalto planalto = new Planalto(new Limite(5, 5), conjutoSondas);
 
-        assertEquals(1, sondaResultado[0].getPosicao().getX());
-        assertEquals(3, sondaResultado[0].getPosicao().getY());
-        assertEquals(Direcao.N, sondaResultado[0].getPosicao().getDirecao());
+        conjutoSondas = planalto.implantar();
 
-        assertEquals(1, sondaResultado[0].getPosicao().getX());
-        assertEquals(3, sondaResultado[0].getPosicao().getY());
-        assertEquals(Direcao.N, sondaResultado[0].getPosicao().getDirecao());
+        List<Sonda> sondaResultado = new ArrayList<>();
+        sondaResultado.addAll(conjutoSondas);
+
+        assertEquals(1, sondaResultado.get(0).getPosicao().getX());
+        assertEquals(3, sondaResultado.get(0).getPosicao().getY());
+        assertEquals(Direcao.N, sondaResultado.get(0).getPosicao().getDirecao());
+
+        assertEquals(1, sondaResultado.get(0).getPosicao().getX());
+        assertEquals(3, sondaResultado.get(0).getPosicao().getY());
+        assertEquals(Direcao.N, sondaResultado.get(0).getPosicao().getDirecao());
     }
 
 }

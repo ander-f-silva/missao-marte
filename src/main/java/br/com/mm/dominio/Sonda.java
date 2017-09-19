@@ -9,12 +9,14 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.beans.ConstructorProperties;
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
 @Table(name = "TB_SONDA")
-@JsonPropertyOrder({ "x", "y", "direcao"})
-public class Sonda {
+public class Sonda implements Serializable {
+
+    private static final long serialVersionUID = -2761650303456067969L;
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -23,13 +25,11 @@ public class Sonda {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     private UUID id;
-
     @Embedded
     private Posicao posicao;
     @Transient
     private Comandos[] comandos;
 
-    @ConstructorProperties({"posicao", "comandos"})
     public Sonda(Posicao posicao, Comandos[] comandos) {
         this.posicao = posicao;
         this.comandos = comandos;

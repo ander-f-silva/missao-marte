@@ -1,24 +1,22 @@
-package br.com.mm.dominio;
+package br.com.mm.aplicacao.api.dto.requisicao;
 
 import br.com.mm.dominio.enumeradores.Direcao;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.beans.ConstructorProperties;
 import java.io.Serializable;
 
-@Embeddable
-public class Posicao implements Serializable {
+public class PosicaoRequisicao {
 
-    private static final long serialVersionUID = -1374432770703859791L;
-
-    @Column(name = "EIXO_X")
     private long x;
-    @Column(name = "EIXO_Y")
     private long y;
-    @Enumerated(EnumType.STRING)
     private Direcao direcao;
 
-    public Posicao(long x, long y, Direcao direcao) {
+    @ConstructorProperties({"x", "y", "direcao"})
+    public PosicaoRequisicao(long x, long y, Direcao direcao) {
         this.x = x;
         this.y = y;
         this.direcao = direcao;
