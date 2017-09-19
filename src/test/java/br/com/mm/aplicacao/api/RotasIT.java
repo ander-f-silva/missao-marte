@@ -5,8 +5,7 @@ import br.com.mm.dominio.Posicao;
 import br.com.mm.dominio.Sonda;
 import br.com.mm.dominio.enumeradores.Comandos;
 import br.com.mm.dominio.enumeradores.Direcao;
-import br.com.mm.infraestrutura.repositorio.Entidade;
-import br.com.mm.infraestrutura.repositorio.Repositorio;
+import br.com.mm.infraestrutura.repositorio.PlanaltoRepositorio;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
@@ -34,18 +33,18 @@ public class RotasIT extends AbstractTestNGSpringContextTests {
     @BeforeClass
     public static void iniciar() throws Exception {
 
-        Repositorio repositorio = new Repositorio();
-
-        Sonda[] sondas = new Sonda[2];
-        sondas[0] = new Sonda(new Posicao(3, 3, Direcao.E), new Comandos[] {Comandos.M,Comandos.M,Comandos.R,Comandos.M,Comandos.M,Comandos.R,Comandos.M,Comandos.R,Comandos.R,Comandos.M});
-        sondas[1] = new Sonda(new Posicao(3, 3, Direcao.E), new Comandos[] {Comandos.M,Comandos.M,Comandos.R,Comandos.M,Comandos.M,Comandos.R,Comandos.M,Comandos.R,Comandos.R,Comandos.M});
-
-        repositorio.adicionar(new Entidade(idPrimiroRegistro, sondas));
-        repositorio.adicionar(new Entidade(idSegundoRegistro, sondas));
-
-        cliente = WebTestClient
-                .bindToRouterFunction(new Rotas(new ManipuladorPlanalto(repositorio)).carregarEventos())
-                .build();
+//        PlanaltoRepositorio planaltoRepositorio = new PlanaltoRepositorio();
+//
+//        Sonda[] sondas = new Sonda[2];
+//        sondas[0] = new Sonda(new Posicao(3, 3, Direcao.E), new Comandos[] {Comandos.M,Comandos.M,Comandos.R,Comandos.M,Comandos.M,Comandos.R,Comandos.M,Comandos.R,Comandos.R,Comandos.M});
+//        sondas[1] = new Sonda(new Posicao(3, 3, Direcao.E), new Comandos[] {Comandos.M,Comandos.M,Comandos.R,Comandos.M,Comandos.M,Comandos.R,Comandos.M,Comandos.R,Comandos.R,Comandos.M});
+//
+//        planaltoRepositorio.adicionar(new Entidade(idPrimiroRegistro, sondas));
+//        planaltoRepositorio.adicionar(new Entidade(idSegundoRegistro, sondas));
+//
+//        cliente = WebTestClient
+//                .bindToRouterFunction(new Rotas(new ManipuladorPlanalto(planaltoRepositorio)).carregarEventos())
+//                .build();
     }
 
     @Test(priority = 1)

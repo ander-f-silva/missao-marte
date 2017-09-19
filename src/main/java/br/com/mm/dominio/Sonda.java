@@ -5,13 +5,28 @@ import br.com.mm.dominio.enumeradores.Comandos;
 import br.com.mm.dominio.enumeradores.Direcao;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javafx.geometry.Pos;
+import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
 import java.beans.ConstructorProperties;
+import java.util.UUID;
 
+@Entity
+@Table(name = "TB_SONDA")
 @JsonPropertyOrder({ "x", "y", "direcao"})
 public class Sonda {
 
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    private UUID id;
+
+    @Embedded
     private Posicao posicao;
+    @Transient
     private Comandos[] comandos;
 
     @ConstructorProperties({"posicao", "comandos"})

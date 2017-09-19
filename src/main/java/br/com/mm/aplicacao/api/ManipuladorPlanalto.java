@@ -1,11 +1,11 @@
 package br.com.mm.aplicacao.api;
 
+import br.com.mm.aplicacao.api.dto.PlanaltoRequisicao;
 import br.com.mm.dominio.Planalto;
 import br.com.mm.dominio.Sonda;
 import br.com.mm.dominio.excecao.LimiteUltrapassadoExcecao;
 import br.com.mm.infraestrutura.excecao.RegistroNaoEncontradoExcecao;
-import br.com.mm.infraestrutura.repositorio.Entidade;
-import br.com.mm.infraestrutura.repositorio.Repositorio;
+import br.com.mm.infraestrutura.repositorio.PlanaltoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,25 +26,25 @@ public class ManipuladorPlanalto {
     private static final String CAMPO_ERRO = "erro";
     private static final String PARAMETRO_ID = "id";
 
-    private Repositorio repositorio;
+    private PlanaltoRepositorio planaltoRepositorio;
 
     @Autowired
-    public ManipuladorPlanalto(final Repositorio repositorio) {
-        this.repositorio = repositorio;
+    public ManipuladorPlanalto(final PlanaltoRepositorio planaltoRepositorio) {
+        this.planaltoRepositorio = planaltoRepositorio;
     }
 
     public Mono<ServerResponse> implantarSondas(ServerRequest request) {
 
-        Mono<Planalto> planalto = request.bodyToMono(Planalto.class);
+        Mono<PlanaltoRequisicao> requisicao = request.bodyToMono(PlanaltoRequisicao.class);
 
-        return planalto.flatMap(
+        return requisicao.flatMap(
                 p -> {
                     try {
                         final String id = UUID.randomUUID().toString();
                         final Sonda[] sondas = p.implantar();
 
                         Entidade<String, Sonda[]> entidade = new Entidade(id, sondas);
-                        entidade = repositorio.adicionar(entidade);
+                        entidade = planaltoRepositorio.save(entidade);
 
                         PlanaltoResposta resposta = new PlanaltoResposta(entidade);
 
@@ -66,7 +66,7 @@ public class ManipuladorPlanalto {
     public Mono<ServerResponse> recuperaTodasInformacoesDasSondas(ServerRequest request) {
 
         try {
-            List<Entidade> entidades = repositorio.buscarTodos();
+            List<Entidade> entidades = planaltoRepositorio.buscarTodos();
 
             Mono<List<TreeMap<String, Object>>> resposta = Flux.fromIterable(entidades)
                     .map(entidade -> new PlanaltoResposta(entidade))
@@ -86,7 +86,7 @@ public class ManipuladorPlanalto {
         try {
             String id = request.pathVariable(PARAMETRO_ID);
 
-            Entidade entidade = repositorio.buscar(id);
+            Entidade entidade = planaltoRepositorio.buscar(id);
 
             Mono<TreeMap<String, Object>> resposta = Mono.just(entidade)
                     .map(registro -> new PlanaltoResposta(registro))
@@ -105,7 +105,7 @@ public class ManipuladorPlanalto {
         String id = request.pathVariable(PARAMETRO_ID);
 
         try {
-            repositorio.remover(id);
+            planaltoRepositorio.remover(id);
             return ServerResponse.noContent().build();
         } catch (RegistroNaoEncontradoExcecao registroNaoEncontradoExcecao) {
             return ServerResponse
@@ -119,7 +119,7 @@ public class ManipuladorPlanalto {
         try {
             String id = request.pathVariable(PARAMETRO_ID);
 
-            repositorio.remover(id);
+            planaltoRepositorio.remover(id);
 
             Mono<Planalto> planalto = request.bodyToMono(Planalto.class);
 
@@ -129,7 +129,7 @@ public class ManipuladorPlanalto {
                             final Sonda[] sondas = p.implantar();
 
                             Entidade<String, Sonda[]> entidade = new Entidade(id, sondas);
-                            entidade = repositorio.adicionar(entidade);
+                            entidade = planaltoRepositorio.adicionar(entidade);
 
                             PlanaltoResposta resposta = new PlanaltoResposta(entidade);
 

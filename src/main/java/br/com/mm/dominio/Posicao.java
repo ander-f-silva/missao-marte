@@ -2,12 +2,17 @@ package br.com.mm.dominio;
 
 import br.com.mm.dominio.enumeradores.Direcao;
 
+import javax.persistence.*;
 import java.beans.ConstructorProperties;
 
+@Embeddable
 public class Posicao {
 
+    @Column(name = "EIXO_X")
     private long x;
+    @Column(name = "EIXO_X")
     private long y;
+    @Enumerated(EnumType.STRING)
     private Direcao direcao;
 
     @ConstructorProperties({"x", "y", "direcao"})
@@ -17,9 +22,7 @@ public class Posicao {
         this.direcao = direcao;
     }
 
-    public long getX() {
-        return x;
-    }
+    public long getX() { return x; }
 
     public long getY() {
         return y;

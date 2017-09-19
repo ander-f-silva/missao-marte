@@ -3,11 +3,17 @@ package br.com.mm.dominio;
 
 import br.com.mm.dominio.excecao.LimiteUltrapassadoExcecao;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
 import java.beans.ConstructorProperties;
 
+@Embeddable
 public class Limite {
 
+    @Column(name = "EIXO_X")
     private long x;
+    @Column(name = "EIXO_Y")
     private long y;
 
     @ConstructorProperties({"x", "y"})
