@@ -1,6 +1,5 @@
 # Projeto Missão Marte
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/24755ef707014807b75950e4aa23141d)](https://www.codacy.com/app/ander-f-silva/missao-marte?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ander-f-silva/missao-marte&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.org/ander-f-silva/missao-marte.svg?branch=master)](https://travis-ci.org/ander-f-silva/missao-marte)
 [![Coverage Status](https://coveralls.io/repos/github/ander-f-silva/missao-marte/badge.svg)](https://coveralls.io/github/ander-f-silva/missao-marte)
 
