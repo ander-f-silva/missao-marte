@@ -1,8 +1,5 @@
 # Projeto Missão Marte
 
-[![Build Status](https://travis-ci.org/ander-f-silva/missao-marte.svg?branch=master)](https://travis-ci.org/ander-f-silva/missao-marte)
-[![Coverage Status](https://coveralls.io/repos/github/ander-f-silva/missao-marte/badge.svg)](https://coveralls.io/github/ander-f-silva/missao-marte)
-
 Projeto responsável pelas apis que irão controlar as ações das sondas  para explorar o planeta Marte.
 ## Tecnologias utilizadas
 
@@ -29,15 +26,9 @@ OS name: "linux", version: "4.6.0-040600-lowlatency", arch: "amd64", family: "un
 
 O repositório utilizado é o Github, onde utilizei o Git flow com a branch develop e master para gerenciar o fonte.
 
-Para realizar o CI usei o Travis com a plataforma Pass Heroku para relizar o deploy da API.
-
-Na pasta postman tem um projeto que poderá importar para testar  as apis na plataforma Heroku ou local.
-
-Quando realizo um push o pull request, automanticamente o Travis já efetua o build e realizava o deploy no heroku.
+Na pasta postman tem um projeto que poderá importar para testar  as apis localmente.
 
 Utilizei o framerk Junit (sufixo Test) para os teste unitários e TestNg (sufixo IT) para o teste integrado.
-
-![Travis](https://github.com/ander-f-silva/missao-marte/blob/develop/images/travis.png)
 
 Para acessar a serviços:
 
